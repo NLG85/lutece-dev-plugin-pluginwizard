@@ -37,12 +37,14 @@ import javax.validation.constraints.*
 import org.hibernate.validator.constraints.*
 import java.io.Serializable
 <#list business_class.attributes as attribute>
-    <#if attribute.type == "Date">
+    <#if attribute.type == "LocalDate">
         <#assign hasDate=true>
     </#if>
 </#list>
 <#if hasDate?? && hasDate>
-import java.sql.Date
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 </#if>
 
 /**

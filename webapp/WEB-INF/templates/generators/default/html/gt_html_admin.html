@@ -14,10 +14,16 @@
 
 		<#list business_class.attributes as attribute>
 		<${macro}formGroup labelFor='${attribute.paramName}' labelKey='${i18n_open}${plugin_name}.modify_${business_class.businessClass?lower_case}.label${attribute.name}${i18n_close}' mandatory=true>
-		<#if attribute.type != "boolean">
-          	<${macro}input type='text' id='${attribute.paramName}' name='${attribute.paramName}' <#if attribute.maxLength &gt; 0> maxlength=${attribute.maxLength}</#if> value='${bra_open}${business_class.businessClass?lower_case}.${attribute.name?uncap_first}!\'\'${bra_close}' tabIndex='${attribute_index}' />
+		<#if attribute.type = "LocalDate">
+          	<${macro}input type='date' id='${attribute.paramName}' name='${attribute.paramName}' <#if attribute.maxLength &gt; 0> maxlength=${attribute.maxLength}</#if> value='${bra_open}${business_class.businessClass?lower_case}.${attribute.name?uncap_first}!\'\'${bra_close}' tabIndex='${attribute_index}' />
+        <#elseif attribute.type = "LocalDateTime">
+          	<${macro}input type='datetime' id='${attribute.paramName}' name='${attribute.paramName}' <#if attribute.maxLength &gt; 0> maxlength=${attribute.maxLength}</#if> value='${bra_open}${business_class.businessClass?lower_case}.${attribute.name?uncap_first}!\'\'${bra_close}' tabIndex='${attribute_index}' />
+        <#elseif attribute.type = "LocalTime">
+          	<${macro}input type='time' id='${attribute.paramName}' name='${attribute.paramName}' <#if attribute.maxLength &gt; 0> maxlength=${attribute.maxLength}</#if> value='${bra_open}${business_class.businessClass?lower_case}.${attribute.name?uncap_first}!\'\'${bra_close}' tabIndex='${attribute_index}' />
+		<#elseif attribute.type = "boolean">
+          	<${macro}checkBox id="${attribute.paramName}" name="${attribute.paramName}" <#if attribute.maxLength &gt; 0> maxlength=${attribute.maxLength}</#if> value="1" checked=${business_class.businessClass?lower_case}.${attribute.name?uncap_first}!'false' tabIndex='${attribute_index}' />
 		<#else>
-			<${macro}checkBox id="${attribute.paramName}" name="${attribute.paramName}" <#if attribute.maxLength &gt; 0> maxlength=${attribute.maxLength}</#if> value="1" checked=${business_class.businessClass?lower_case}.${attribute.name?uncap_first}!'false' tabIndex='${attribute_index}' />
+			<${macro}input type='text' id='${attribute.paramName}' name='${attribute.paramName}' <#if attribute.maxLength &gt; 0> maxlength=${attribute.maxLength}</#if> value='${bra_open}${business_class.businessClass?lower_case}.${attribute.name?uncap_first}!\'\'${bra_close}' tabIndex='${attribute_index}' />
 	    </#if>
 		</${macro}formGroup>
 		</#list>
@@ -44,10 +50,16 @@
 			
 			<#list business_class.attributes as attribute>
 			<${macro}formGroup labelFor='${attribute.paramName}' labelKey='${i18n_open}${plugin_name}.modify_${business_class.businessClass?lower_case}.label${attribute.name}${i18n_close}' mandatory=true>
-			<#if attribute.type != "boolean">
-          		<${macro}input type='text' id='${attribute.paramName}' name='${attribute.paramName}' <#if attribute.maxLength &gt; 0> maxlength=${attribute.maxLength}</#if> value='${bra_open}${business_class.businessClass?lower_case}.${attribute.name?uncap_first}!\'\'${bra_close}' tabIndex='${attribute_index}' />
-			<#else>
+			<#if attribute.type = "LocalDate">
+          		<${macro}input type='date' id='${attribute.paramName}' name='${attribute.paramName}' <#if attribute.maxLength &gt; 0> maxlength=${attribute.maxLength}</#if> value='${bra_open}${business_class.businessClass?lower_case}.${attribute.name?uncap_first}!\'\'${bra_close}' tabIndex='${attribute_index}' />
+          	<#elseif attribute.type = "LocalDateTime">
+          		<${macro}input type='datetime' id='${attribute.paramName}' name='${attribute.paramName}' <#if attribute.maxLength &gt; 0> maxlength=${attribute.maxLength}</#if> value='${bra_open}${business_class.businessClass?lower_case}.${attribute.name?uncap_first}!\'\'${bra_close}' tabIndex='${attribute_index}' />
+          	<#elseif attribute.type = "LocalTime">
+          		<${macro}input type='time' id='${attribute.paramName}' name='${attribute.paramName}' <#if attribute.maxLength &gt; 0> maxlength=${attribute.maxLength}</#if> value='${bra_open}${business_class.businessClass?lower_case}.${attribute.name?uncap_first}!\'\'${bra_close}' tabIndex='${attribute_index}' />
+			<#elseif attribute.type = "boolean">
 				<${macro}checkBox id="${attribute.paramName}" name="${attribute.paramName}" <#if attribute.maxLength &gt; 0> maxlength=${attribute.maxLength}</#if> value="1" checked=${business_class.businessClass?lower_case}.${attribute.name?uncap_first}!'false' tabIndex='${attribute_index}' />
+			<#else>
+				<${macro}input type='text' id='${attribute.paramName}' name='${attribute.paramName}' <#if attribute.maxLength &gt; 0> maxlength=${attribute.maxLength}</#if> value='${bra_open}${business_class.businessClass?lower_case}.${attribute.name?uncap_first}!\'\'${bra_close}' tabIndex='${attribute_index}' />
 			</#if>
 			</${macro}formGroup>
 			</#list>
@@ -87,10 +99,15 @@
             <input type="hidden" id="id" name="id"/>
             <#list business_class.attributes as attribute>
             <td>
-            <#if attribute.type != "boolean">
-				${bra_open}${business_class.businessClass?lower_case}.${attribute.name?uncap_first}${bra_close}
-			<#else>
+            <#if attribute.type = "boolean">
 				${bra_open}${business_class.businessClass?lower_case}.${attribute.name?uncap_first}?c${bra_close}
+			<#elseif attribute.type = "LocalDate">
+				${bra_open}(${business_class.businessClass?lower_case}.${attribute.name?uncap_first}?datetime("yyyy-MM-dd")?string("dd/MM/yyyy"))!${bra_close}
+			<#elseif attribute.type = "LocalDateTime">
+				${bra_open}(${business_class.businessClass?lower_case}.${attribute.name?uncap_first}?datetime("yyyy-MM-dd'T'HH:mm")?string("dd/MM/yyyy HH:mm"))!${bra_close}
+			<#else>
+				
+				${bra_open}${business_class.businessClass?lower_case}.${attribute.name?uncap_first}${bra_close}
 			</#if>
 			</td>
         	</#list>

@@ -52,12 +52,14 @@ import fr.paris.lutece.util.json.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import fr.paris.lutece.portal.service.util.AppLogService;
 <#list business_class.attributes as attribute>
-    <#if attribute.type == "Date">
+    <#if attribute.type == "LocalDate">
         <#assign hasDate=true>
     </#if>
 </#list>
 <#if hasDate?? && hasDate>
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 </#if>
 import java.util.List;
 import javax.ws.rs.FormParam;
@@ -171,8 +173,14 @@ public class ${business_class.businessClass?cap_first}Rest
 	        	<#case "boolean">
 	    ${business_class.businessClass?lower_case}.set${attribute.name?cap_first}( Boolean.parseBoolean( ${attribute.paramName?lower_case} ) );
 	        		<#break>
-	        	<#case "Date">
-	    ${business_class.businessClass?lower_case}.set${attribute.name?cap_first}( Date.valueOf( ${attribute.paramName?lower_case} ) );
+	        	<#case "LocalDate">
+	    ${business_class.businessClass?lower_case}.set${attribute.name?cap_first}( LocalDate.parse( ${attribute.paramName?lower_case} ) );
+	        		<#break>
+	        	<#case "LocalDateTime">
+	    ${business_class.businessClass?lower_case}.set${attribute.name?cap_first}( LocalDateTime.parse( ${attribute.paramName?lower_case} ) );
+	        		<#break>
+	        	<#case "LocalTime">
+	    ${business_class.businessClass?lower_case}.set${attribute.name?cap_first}( LocalTime.parse( ${attribute.paramName?lower_case} ) );
 	        		<#break>
 	        	<#default>
     	${business_class.businessClass?lower_case}.set${attribute.name?cap_first}( ${attribute.paramName?lower_case} );
@@ -249,8 +257,14 @@ public class ${business_class.businessClass?cap_first}Rest
 	        	<#case "boolean">
 	    ${business_class.businessClass?lower_case}.set${attribute.name?cap_first}( Boolean.parseBoolean( ${attribute.paramName?lower_case} ) );
 	        		<#break>
-	        	<#case "Date">
-	    ${business_class.businessClass?lower_case}.set${attribute.name?cap_first}( Date.valueOf( ${attribute.paramName?lower_case} ) );
+	        	<#case "LocalDate">
+	    ${business_class.businessClass?lower_case}.set${attribute.name?cap_first}( LocalDate.parse( ${attribute.paramName?lower_case} ) );
+	        		<#break>
+	        	<#case "LocalDateTime">
+	    ${business_class.businessClass?lower_case}.set${attribute.name?cap_first}( LocalDateTime.parse( ${attribute.paramName?lower_case} ) );
+	        		<#break>
+	        	<#case "LocalTime">
+	    ${business_class.businessClass?lower_case}.set${attribute.name?cap_first}( LocalTime.parse( ${attribute.paramName?lower_case} ) );
 	        		<#break>
 	        	<#default>
     	${business_class.businessClass?lower_case}.set${attribute.name?cap_first}( ${attribute.paramName?lower_case} );

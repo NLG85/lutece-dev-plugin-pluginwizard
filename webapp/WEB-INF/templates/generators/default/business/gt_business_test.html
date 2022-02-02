@@ -37,12 +37,14 @@ package fr.paris.lutece.plugins.${radical_package}.business;
 import fr.paris.lutece.test.LuteceTestCase;
 
 <#list business_class.attributes as attribute>
-	<#if attribute.type = "Date">
+	<#if attribute.type = "LocalDate" || attribute.type = "LocalDateTime" || attribute.type = "LocalTime">
 		<#assign hasDate = true>
 	</#if>
 </#list>
 <#if hasDate?? && hasDate>
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 </#if>
 
 /**
@@ -57,9 +59,15 @@ public class ${business_class.businessClass}BusinessTest extends LuteceTestCase
 <#elseif attribute.type = "boolean">
 	private static final ${attribute.type} ${attribute.name?upper_case}1 = true;
     private static final ${attribute.type} ${attribute.name?upper_case}2 = false;
-<#elseif attribute.type = "Date">
-	private static final ${attribute.type} ${attribute.name?upper_case}1 = new Date( 1000000l );
-    private static final ${attribute.type} ${attribute.name?upper_case}2 = new Date( 2000000l );
+<#elseif attribute.type = "LocalDate">
+	private static final ${attribute.type} ${attribute.name?upper_case}1 = LocalDate.of(1000, 1, 1);
+    private static final ${attribute.type} ${attribute.name?upper_case}2 = LocalDate.of(2000, 1, 1);
+<#elseif attribute.type = "LocalDateTime">
+	private static final ${attribute.type} ${attribute.name?upper_case}1 = LocalDateTime.of(1000, 1, 1, 1, 0);
+    private static final ${attribute.type} ${attribute.name?upper_case}2 = LocalDateTime.of(2000, 1, 1, 1, 0);
+<#elseif attribute.type = "LocalTime">
+	private static final ${attribute.type} ${attribute.name?upper_case}1 = LocalTime.of(1, 0);
+    private static final ${attribute.type} ${attribute.name?upper_case}2 = LocalTime.of(2, 0);
 <#else>
     private static final ${attribute.type} ${attribute.name?upper_case}1 = 1;
     private static final ${attribute.type} ${attribute.name?upper_case}2 = 2;
@@ -81,9 +89,9 @@ public class ${business_class.businessClass}BusinessTest extends LuteceTestCase
         ${business_class.businessClass}Home.create( ${business_class.instanceName} );
         ${business_class.businessClass} ${business_class.instanceName}Stored = ${business_class.businessClass}Home.findByPrimaryKey( ${business_class.instanceName}.getId( ) );
         <#list business_class.attributes as attribute>
-         <#if attribute.type != "Date">
+         <#if attribute.type != "LocalDate">
         assertEquals( ${business_class.instanceName}Stored.get${attribute.name}() , ${business_class.instanceName}.get${attribute.name}( ) );
-        <#elseif attribute.type = "Date">
+        <#elseif attribute.type = "LocalDate" || attribute.type = "LocalDateTime" || attribute.type = "LocalTime">
         assertEquals( ${business_class.instanceName}Stored.get${attribute.name}().toString() , ${business_class.instanceName}.get${attribute.name}( ).toString() );
         </#if>
         </#list>
@@ -95,9 +103,9 @@ public class ${business_class.businessClass}BusinessTest extends LuteceTestCase
         ${business_class.businessClass}Home.update( ${business_class.instanceName} );
         ${business_class.instanceName}Stored = ${business_class.businessClass}Home.findByPrimaryKey( ${business_class.instanceName}.getId( ) );
         <#list business_class.attributes as attribute>
-        <#if attribute.type != "Date">
+        <#if attribute.type != "LocalDate">
         assertEquals( ${business_class.instanceName}Stored.get${attribute.name}() , ${business_class.instanceName}.get${attribute.name}( ) );
-        <#elseif attribute.type = "Date">
+        <#elseif attribute.type = "LocalDate" || attribute.type = "LocalDateTime" || attribute.type = "LocalTime">
         assertEquals( ${business_class.instanceName}Stored.get${attribute.name}().toString() , ${business_class.instanceName}.get${attribute.name}( ).toString() );
         </#if>
         </#list>

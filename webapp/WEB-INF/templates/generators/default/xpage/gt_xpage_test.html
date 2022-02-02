@@ -45,12 +45,14 @@ import java.util.List;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.web.LocalVariables;
 <#list business_class.attributes as attribute>
-	<#if attribute.type = "Date">
+	<#if attribute.type = "LocalDate">
 		<#assign hasDate = true>
 	</#if>
 </#list>
 <#if hasDate?? && hasDate>
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 </#if>
@@ -76,9 +78,15 @@ public class ${business_class.businessClass}XPageTest extends LuteceTestCase
 <#elseif attribute.type = "boolean">
 	private static final ${attribute.type} ${attribute.name?upper_case}1 = true;
     private static final ${attribute.type} ${attribute.name?upper_case}2 = false;
-<#elseif attribute.type = "Date">
-	private static final ${attribute.type} ${attribute.name?upper_case}1 = new Date( 1000000l );
-    private static final ${attribute.type} ${attribute.name?upper_case}2 = new Date( 2000000l );
+<#elseif attribute.type = "LocalDate">
+	private static final ${attribute.type} ${attribute.name?upper_case}1 = LocalDate.of(1000, 1, 1);
+    private static final ${attribute.type} ${attribute.name?upper_case}2 = LocalDate.of(2000, 1, 1);
+<#elseif attribute.type = "LocalDateTime">
+	private static final ${attribute.type} ${attribute.name?upper_case}1 = LocalDateTime.of(1000, 1, 1, 1, 0);
+    private static final ${attribute.type} ${attribute.name?upper_case}2 = LocalDateTime.of(2000, 1, 1, 1, 0);
+<#elseif attribute.type = "LocalTime">
+	private static final ${attribute.type} ${attribute.name?upper_case}1 = LocalTime.of(1, 0);
+    private static final ${attribute.type} ${attribute.name?upper_case}2 = LocalTime.of(2, 0);
 <#else>
     private static final ${attribute.type} ${attribute.name?upper_case}1 = 1;
     private static final ${attribute.type} ${attribute.name?upper_case}2 = 2;
@@ -106,7 +114,7 @@ public void testXPage(  ) throws AccessDeniedException
         request.addParameter( "${attribute.paramName}" , ${attribute.name?upper_case}1 );
         <#elseif attribute.type = "Date">
         request.addParameter( "${attribute.paramName}" , DateUtil.getDateString( ${attribute.name?upper_case}1, LocaleService.getDefault( ) ) );
-        <#else>
+		<#else>
         request.addParameter( "${attribute.paramName}" , String.valueOf( ${attribute.name?upper_case}1) );
         </#if>
 		</#list>
@@ -129,11 +137,11 @@ public void testXPage(  ) throws AccessDeniedException
 		LocalVariables.setLocal(config, request, response);
 		<#list business_class.attributes as attribute>
 		<#if attribute.type = "String">
-        request.addParameter( "${attribute.paramName}" , ${attribute.name?upper_case}2 );
+        request.addParameter( "${attribute.paramName}" , ${attribute.name?upper_case}1 );
         <#elseif attribute.type = "Date">
-        request.addParameter( "${attribute.paramName}" , DateUtil.getDateString( ${attribute.name?upper_case}2, LocaleService.getDefault( ) ) );
-        <#else>
-        request.addParameter( "${attribute.paramName}" , String.valueOf( ${attribute.name?upper_case}2) );
+        request.addParameter( "${attribute.paramName}" , DateUtil.getDateString( ${attribute.name?upper_case}1, LocaleService.getDefault( ) ) );
+		<#else>
+        request.addParameter( "${attribute.paramName}" , String.valueOf( ${attribute.name?upper_case}1) );
         </#if>
 		</#list>
 

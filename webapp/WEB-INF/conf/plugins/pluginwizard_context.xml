@@ -144,7 +144,7 @@
          <value>Date</value>
       </property>
       <property name="javaType">
-         <value>Date</value>
+         <value>LocalDate</value>
       </property>
       <property name="prefix">
          <value>date</value>
@@ -176,6 +176,52 @@
          <value>0</value>
       </property>
    </bean>
+   <bean id="pluginwizard.attribute.localDateTime" class="fr.paris.lutece.plugins.pluginwizard.service.AttributeType">
+      <property name="idAttributeType">
+         <value>9</value>
+      </property>
+      <property name="name">
+         <value>localDateTime</value>
+      </property>
+      <property name="description">
+         <value>LocalDateTime</value>
+      </property>
+      <property name="javaType">
+         <value>LocalDateTime</value>
+      </property>
+      <property name="prefix">
+         <value>date</value>
+      </property>
+      <property name="maxLength">
+         <value>0</value>
+      </property>
+      <property name="constraint">
+         <value>@NotNull( message = "@i18n{portal.validation.message.notEmpty}" )</value>
+      </property>
+   </bean>
+   <bean id="pluginwizard.attribute.localTime" class="fr.paris.lutece.plugins.pluginwizard.service.AttributeType">
+      <property name="idAttributeType">
+         <value>10</value>
+      </property>
+      <property name="name">
+         <value>localTime</value>
+      </property>
+      <property name="description">
+         <value>LocalTime</value>
+      </property>
+      <property name="javaType">
+         <value>LocalTime</value>
+      </property>
+      <property name="prefix">
+         <value>date</value>
+      </property>
+      <property name="maxLength">
+         <value>0</value>
+      </property>
+      <property name="constraint">
+         <value>@NotNull( message = "@i18n{portal.validation.message.notEmpty}" )</value>
+      </property>
+   </bean>
    <bean id="pluginwizard.attribute.types.list" class="java.util.ArrayList">
       <constructor-arg>
          <list>
@@ -187,6 +233,8 @@
             <ref bean="pluginwizard.attribute.url" />
             <ref bean="pluginwizard.attribute.date" />
             <ref bean="pluginwizard.attribute.boolean" />
+            <ref bean="pluginwizard.attribute.localDateTime" />
+            <ref bean="pluginwizard.attribute.localTime" />
          </list>
       </constructor-arg>
    </bean>
